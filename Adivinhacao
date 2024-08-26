@@ -1,0 +1,36 @@
+#include <stdio.h>
+int main()
+{
+     //imprime o cabeçalho do jogo
+	printf("******************************************\n");
+    printf("* Bem vindo ao nosso jogo de Adivinhação *\n");
+	printf("******************************************\n");
+	
+    int chute = 0;
+    int numerosecreto = 42;
+    
+
+    for(int i = 1; i<=3; i++){
+        printf("Tentativa %d de 3\n",i);
+        printf("Qual é o seu chute? ");
+        scanf("%d", &chute);
+        printf("\nSeu chute foi: %d\n", chute);
+    
+        int acertou = (chute == numerosecreto); // verifica a condiçãoe e atribui 1 para verdadeira e 0 para falso
+        //printf("\nValor do Acertou: %d\n", acertou);
+    
+        if(acertou) { //se acertou for 1 é verdadeira, 0 é falso
+            printf("Parabéns! Você acertou!\n");
+        }
+            else {
+                int maior = (chute > numerosecreto); 
+                if(maior) {
+                    printf("Seu chute foi maior do que o número secreto!\n");
+                } 
+                else {
+                    printf("Seu chute foi menor do que o número secreto!\n");
+                }
+            }
+            //printf("\nValor do maior: %d\n", maior); não lê a variavel "maior" por estar fora do escopo que ela foi declarada
+    }
+}
