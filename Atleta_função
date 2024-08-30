@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <string.h>
+#define TAM 3
+struct atleta
+{
+	char nome [50], esporte [30];
+	int id;
+	float alt;
+	
+};
+    // variaveis globais
+	int mais_velho;
+	float mais_alto;
+	char mais_velho_nome[50], mais_alto_nome[50]; 
+
+void ler (struct atleta a[] ){
+    int i;
+	
+	for(i=0; i<TAM; i++)
+	{
+		printf("\n=== Atleta %d", i+1);
+		printf("\nNome: ");
+		setbuf(stdin, 0);
+		fgets(a[i].nome, 50, stdin);
+		printf("\nEsporte: ");
+		setbuf(stdin, 0);
+		fgets(a[i].esporte, 30, stdin);
+		printf("\nIdade: ");
+		scanf("%d", &a[i].id);
+		printf("\nAltura: ");
+		scanf("%f",&a[i].alt);
+	}
+	
+    // inicialização das variaveis globais
+	mais_velho = a[0].id;
+	mais_alto = a[0].alt;
+
+}
+    
+void calcular (struct atleta a[]){
+    int i;
+    	for(i=0;i<TAM;i++)
+	{
+		if(a[i].id > mais_velho)
+		{
+			mais_velho = a[i].id;
+			strcpy(mais_velho_nome, a[i].nome);	
+		}
+		
+		if(a[i].alt > mais_alto)
+		{
+			mais_alto = a[i].alt;
+			strcpy(mais_alto_nome, a[i].nome);	
+		}		
+	}
+
+}
+
+void mostrar(struct atleta a[]){
+    printf ("\n\nMais velho: %s com idade de %d anos.", mais_velho_nome, mais_velho);
+	printf ("\n\nMais alto: %s com altura de %f m.", mais_alto_nome, mais_alto);
+
+}
+	
+int main()
+{
+	struct atleta a[TAM];
+	ler(a);
+	calcular(a);
+	mostrar (a);
+	
+}
