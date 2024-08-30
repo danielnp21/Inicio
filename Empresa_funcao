@@ -1,0 +1,36 @@
+#include <stdio.h>
+#define TAM 4
+struct EMPRESA
+{
+char nome [50];
+float salario;
+};
+void preencher(struct EMPRESA funcionarios[]){
+    int i;
+    for (i=0; i<TAM; i++)
+    {
+        printf("\nDigite o nome do funcionário %d: ", i+1);
+        setbuf (stdin, 0);
+        fgets(funcionarios[i].nome, 50, stdin);
+        printf("\nDigite o salário do funcionário %d: ", i+1);
+        scanf("%f", & funcionarios[i].salario);
+        printf("\n");
+    }
+}
+void mostrar(struct EMPRESA funcionarios[]){
+    for(int i=0; i<TAM; i++)
+    {
+        printf("\nFuncionário %d:", i+1);
+        printf("\nNome: %s", funcionarios [i].nome);
+        printf("\nSalário: %.2f", funcionarios [i].salario);
+    }
+
+    }
+
+int main()
+{
+struct EMPRESA funcionarios [TAM];
+preencher(funcionarios);
+mostrar(funcionarios);
+
+}
