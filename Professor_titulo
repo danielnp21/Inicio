@@ -1,0 +1,107 @@
+#include<stdio.h>
+#include<string.h>
+#define TIT 4
+#define PROF 4
+
+
+
+struct titulo
+{
+    int cod_titulo;
+	char descricao[30];
+    float valor_aula;
+};
+
+struct professor
+{
+	int cod_titulo, num_registro, total_hr_aula;
+	char nome[30];
+
+};
+
+struct titulo t[TIT];
+void cad_tit(struct titulo t[])
+{
+ 	int achou, cod, i, j;
+	
+	for (i=0; i < TIT; i++)
+	{
+		do
+		{
+			achou = 0;
+			printf("==== CADASTRO DOS TITULOS ====\n\n");
+			printf("%dº Titulo \n", i+1);
+			printf("\nCodigo: ");
+			scanf("%d", &cod);
+			if (cod == t[j].cod_titulo)
+			    {
+					achou = 1;
+			    }
+			if (achou == 0)
+			{
+				t[i].cod_titulo = cod;
+			    printf("\nDescrição: ");
+			    setbuf (stdin, NULL);
+			    fgets (t[i].descricao, 40, stdin);
+			    printf("\nValor da aula: ");
+			    scanf("%f",&t[i].valor_aula);
+			}
+			else
+				printf("\nCodigo já existe!");
+		}while (achou == 1);
+	}
+}
+
+struct professor p[PROF];
+void cad_prof(struct professor p[])
+{
+	int i, j, achou;
+	for (i=0;i<PROF;i++)
+	{
+	  printf("==== CADASTRO DOS PROFESSORES ====\n\n");
+	  printf("%dº Professor \n",i+1);
+	  printf("\nNúmero de registro: ");
+	  scanf("%d", &p[i].num_registro);
+	  printf("\nNome: ");
+	  setbuf (stdin, 0);
+	  fgets (p[i].nome, 40, stdin);
+	  printf("\nTotal aulas ministradas: ");
+	  scanf("%d", &p[i].total_hr_aula);
+	  achou = 0;
+	  do {
+	    printf("\nCodigo do titulo: ");
+	    scanf("%d", &p[i].cod_titulo);
+	    for (j = 0; j < TIT; j++)
+	    {
+	      if (p[i].cod_titulo == t[j].cod_titulo)
+	        achou = 1;
+	    }
+	  } while (achou != 1);
+	}
+}
+
+
+void rel(struct titulo t[], struct professor p[])
+{
+	for(int i=0; i<PROF; i++)
+	{
+		printf("\nProfessor: %s\n", p[i].nome);
+	}
+	for(int j=0; j<PROF; j++)
+		{
+			printf("\nTitulo: %s\n", t[j].descricao);
+		}
+}
+
+int main()
+{
+	struct titulo t[TIT]; 
+	struct professor p[PROF]);
+	cad_tit(t);
+	cad_prof(p);
+	rel()
+	
+}	
+
+
+
