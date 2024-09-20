@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <string.h>
+
+#define PES 4
+
+int cad = 0;
+int soma_filhos = 0;
+int menor_idade = 1000;
+float media_num_filhos = 0;
+float idade_salario_inf = 0;
+float media_idade_salario_inf = 0;
+float soma_salario_pop = 0;
+float media_salario_pop = 0;
+float maior_salario =0;
+int divisor = 0;
+
+struct Pesquisa 
+{
+    float salario;
+    int idade, num_filhos;
+    char sexo[2];
+
+};
+
+int main()
+{
+    struct Pesquisa pop[PES];
+    
+        for(int i = 0; i<PES; i++)
+        {
+            printf("\n\nDigite o Salario: ");
+            scanf("%f", &pop[cad].salario);
+            printf("\nDigite a Idade: ");
+            scanf("%d", &pop[cad].idade);
+            //printf("\nDigite o Sexo: ");
+            //scanf(" %c", pop[cad].sexo);
+            printf("\nDigite a Qtde de Filhos: ");
+            scanf("%d", &pop[cad].num_filhos);
+            soma_salario_pop = soma_salario_pop + pop[cad].salario;
+            soma_filhos = soma_filhos + pop[cad].num_filhos;
+            
+            
+            if(pop[i].salario<1500)
+            {
+                idade_salario_inf = idade_salario_inf + pop[i].idade;
+                divisor = divisor + 1;
+            }
+            
+            if(pop[cad].salario > maior_salario)
+            {
+                maior_salario = pop[cad].salario;
+            }
+            
+            if(pop[cad].idade < menor_idade)
+            {
+                menor_idade = pop[cad].idade;
+            }
+
+
+            cad++;
+            
+            
+        }
+    
+        
+    //    int divisor = 0;
+      //  int j;
+    //    for (j = 0; j<cad; j++)
+      //  {
+        
+        //    }
+        //}
+        media_salario_pop = soma_salario_pop / cad;
+        media_idade_salario_inf = idade_salario_inf/divisor;
+        media_num_filhos = soma_filhos / cad;
+        
+        printf("\nMedia da idade com Salario Inferior a R$ 1.500,00: %.2f", media_idade_salario_inf);
+        printf("\nMedia de Salário da população: %.2f", media_salario_pop);
+        printf("\nMedia do Numero de Filhos: %.1f", media_num_filhos);
+        printf("\nMaior Salario: %.2f", maior_salario);
+        printf("\nMenor idade: %d", menor_idade);
+}
