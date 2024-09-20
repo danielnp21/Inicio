@@ -1,0 +1,160 @@
+#include<stdio.h>
+#include<string.h>
+#include <stdlib.h>
+#define CLI 5
+#define CONT 5 
+int cl_cadastrados = 0;
+int cont_cadastrados = 0;
+struct cliente
+{
+    char nome_cliente[30]; 
+    int codigo_cliente;
+};
+
+struct conta
+{
+	int num_conta, codigo_cliente;
+	float valor_compra;
+};
+
+
+int menu();
+void cad_cliente(struct cliente cl[]);
+void cad_conta(struct conta conta[], struct cliente cl[]);
+void lista(struct cliente cl[], struct conta cont[]);
+void exclui(struct cliente cl[]);
+
+int main()
+{
+    struct cliente a[CLI];
+    struct conta b[CONT];
+    int op;
+    do
+    {
+        op = menu();
+        if(op == 1)
+            cad_cliente(a);
+        else if(op == 2)
+            cad_conta(b,a);
+        else if(op == 3)
+            lista(a,b);
+        else if(op == 4)
+            exclui(a);
+            
+    }while(op != 5);
+}
+
+int menu()
+{
+    int m, flag = 0;
+    do
+    {
+        printf("\n==== Menu ====");
+        printf("\n1 - Cadastro de Cliente");
+        printf("\n2 - Cadastro de Conta");
+        printf("\n3 - Lista Cliente e Valor da Conta");
+        printf("\n4 - Exclui");
+        printf("\n5 - Sair");
+        if(flag == 0)
+        {
+            printf("\nDigite a opcao: ");
+            scanf("%d", &m);
+            flag = 1;
+        }
+        else
+        {
+            printf("\nOpcao invalida! Digite novamente: ");
+            scanf("%d", &m);
+        }
+    }while(m < 1 || m > 5);
+    return m;
+}
+
+void cad_cliente(struct cliente cl[])
+{
+	int i, cod_busca, achou;
+		printf("==== CADASTRO DOS CLIENTES ====\n\n");
+		printf("\nDigite o Codigo do Cliente: ");
+        scanf("%d", &cod_busca);
+		achou = 0;	
+        for(i=0; i<cl_cadastrados; i++)
+        {
+        	
+        	if(cod_busca == cl[i].codigo_cliente)
+			{
+				printf("\n Cliente ja existe!");
+				achou = 1;
+				break;
+			}	
+		}
+        	if (achou==0)
+        	{
+        		cl[cl_cadastrados].codigo_cliente = cod_busca;
+	        	printf("\nCodigo do cliente %d", cl[cl_cadastrados].codigo_cliente);
+				printf("\nNome do Cliente: ");
+	    		setbuf(stdin, NULL);
+	    		fgets(cl[cl_cadastrados].nome_cliente, 30, stdin);
+	 			cl_cadastrados++;
+				system("cls");       				
+			}
+}
+
+void cad_conta(struct conta cont[], struct cliente cl[])
+{
+	int i, achou = 0;
+	
+	if(cl_cadastrados == 0)
+    	printf("\nCadastro vazio!");
+    else
+    {
+		do	
+		{
+			achou = 0;
+			printf("==== CADASTRO DOS CONTAS ====\n\n");
+			printf("\nCodigo do Cliente: ");
+		    scanf("%d", &cont[cont_cadastrados].codigo_cliente);
+		    
+			for (i = 0; i < cl_cadastrados; i++)
+		    {
+	      		if (cont[cont_cadastrados].codigo_cliente == cl[i].codigo_cliente)
+	      		{
+				    printf("\nNumero do cliente %d", cont[cont_cadastrados].num_conta);
+					scanf("%d", &cont[cont_cadastrados].num_conta);
+					printf("\nNome do Cliente: ");
+			    	scanf("%f", &cont[cont_cadastrados].valor_compra);
+			    	achou = 1;
+			    	break;
+		    	}
+			}
+			if (achou == 0) 
+			{
+                printf("Cliente não encontrado.\n");	
+			}
+			
+		}while(achou != 1);
+		cont_cadastrados++;
+		system("cls"); 
+
+	}
+}
+void lista(struct cliente cl[], struct conta cont[])
+{
+    if(cl_cadastrados == 0)
+        printf("\nCadastro vazio!");
+    else
+    {
+	
+		
+	}
+}
+
+void exclui(struct cliente cl[])
+{
+    if(cl_cadastrados == 0)
+        printf("\nCadastro vazio!");
+    else
+    {
+	
+		
+	}
+}
