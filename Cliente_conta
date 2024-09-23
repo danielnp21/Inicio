@@ -21,8 +21,8 @@ struct conta
 int menu();
 void cad_cliente(struct cliente cl[]);
 void cad_conta(struct conta conta[], struct cliente cl[]);
-void lista(struct cliente cl[], struct conta cont[]);
-void exclui(struct cliente cl[]);
+void lista(struct cliente cl[]);
+void exclui(struct cliente cl[], struct conta cont[]);
 
 int main()
 {
@@ -37,9 +37,9 @@ int main()
         else if(op == 2)
             cad_conta(b,a);
         else if(op == 3)
-            lista(a,b);
+            lista(a);
         else if(op == 4)
-            exclui(a);
+            exclui(a,b);
             
     }while(op != 5);
 }
@@ -118,9 +118,9 @@ void cad_conta(struct conta cont[], struct cliente cl[])
 		    {
 	      		if (cont[cont_cadastrados].codigo_cliente == cl[i].codigo_cliente)
 	      		{
-				    printf("\nNumero do cliente %d", cont[cont_cadastrados].num_conta);
+				    printf("\nNumero do cliente: ");
 					scanf("%d", &cont[cont_cadastrados].num_conta);
-					printf("\nNome do Cliente: ");
+					printf("\nValor da Compra: ");
 			    	scanf("%f", &cont[cont_cadastrados].valor_compra);
 			    	achou = 1;
 			    	break;
@@ -137,24 +137,62 @@ void cad_conta(struct conta cont[], struct cliente cl[])
 
 	}
 }
-void lista(struct cliente cl[], struct conta cont[])
+void lista(struct cliente cl[])
 {
     if(cl_cadastrados == 0)
         printf("\nCadastro vazio!");
     else
     {
-	
-		
-	}
+    	int i;
+    	int j;
+    	for(i = 0; i < cl_cadastrados; i++)
+        {
+            printf("\nCodigo Cliente: %d", cl[i].codigo_cliente);
+            printf("\nNome: %s", cl[i].nome_cliente);
+        }    
+    		
+    }
 }
 
-void exclui(struct cliente cl[])
+void exclui(struct cliente cl[], struct conta cont[])
 {
     if(cl_cadastrados == 0)
         printf("\nCadastro vazio!");
     else
     {
-	
-		
+	   int i, j, achou = 0;
+        int busca_cliente;
+        if(cl_cadastrados == 0)
+            printf("\nAgenda vazia!");
+        else
+        {
+            printf("\nDigite o Código do Cliente: ");
+            setbuf(stdin, NULL);
+            scanf("%d" , &busca_cliente);
+            for(i = 0; i < cl_cadastrados; i++)
+            {
+                if(busca_cliente == cont[i].codigo_cliente)
+                {
+                    printf("\n*****Cliente não pode ser Excluido, pois tem conta Cadastrada: *****");
+                    achou = 1;
+                    break;
+                }
+                if(busca_cliente == cl[i].codigo_cliente)
+                {
+                    printf("\n==== Registro Excluido %d ====", i + 1);
+                    achou = 1;
+
+                    for(j = i; j < cl_cadastrados - 1; j++)
+                    {
+                        cl[j] = cl[j + 1];
+                    }
+
+                    cl_cadastrados--; 
+                    break; 
+                }
+            }
+            if(achou == 0)
+            printf("\nCliente nao encontrado!");
+        }
 	}
 }
