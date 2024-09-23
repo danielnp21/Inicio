@@ -21,7 +21,7 @@ struct conta
 int menu();
 void cad_cliente(struct cliente cl[]);
 void cad_conta(struct conta conta[], struct cliente cl[]);
-void lista(struct cliente cl[]);
+void lista(struct cliente cl[], struct conta cont[]);
 void exclui(struct cliente cl[], struct conta cont[]);
 
 int main()
@@ -29,6 +29,7 @@ int main()
     struct cliente a[CLI];
     struct conta b[CONT];
     int op;
+    
     do
     {
         op = menu();
@@ -37,7 +38,7 @@ int main()
         else if(op == 2)
             cad_conta(b,a);
         else if(op == 3)
-            lista(a);
+            lista(a,b);
         else if(op == 4)
             exclui(a,b);
             
@@ -53,7 +54,7 @@ int menu()
         printf("\n1 - Cadastro de Cliente");
         printf("\n2 - Cadastro de Conta");
         printf("\n3 - Lista Cliente e Valor da Conta");
-        printf("\n4 - Exclui");
+        printf("\n4 - Excluir Cliente");
         printf("\n5 - Sair");
         if(flag == 0)
         {
@@ -137,18 +138,33 @@ void cad_conta(struct conta cont[], struct cliente cl[])
 
 	}
 }
-void lista(struct cliente cl[])
+void lista(struct cliente cl[], struct conta cont[])
 {
     if(cl_cadastrados == 0)
         printf("\nCadastro vazio!");
     else
     {
-    	int i;
-    	int j;
+    	int i, j;
     	for(i = 0; i < cl_cadastrados; i++)
         {
             printf("\nCodigo Cliente: %d", cl[i].codigo_cliente);
             printf("\nNome: %s", cl[i].nome_cliente);
+            
+            int conta_encontrada = 0;
+            for(j = 0; j < cont_cadastrados; j++)
+            {
+                if (cont[j].codigo_cliente == cl[i].codigo_cliente)
+                {
+                    printf("Valor da Compra: %.2f\n", cont[j].valor_compra);
+                    conta_encontrada = 1;
+                    break; 
+                }
+            }
+            
+            if (!conta_encontrada)
+            {
+                printf("Cliente não possui conta! \n");
+            }
         }    
     		
     }
