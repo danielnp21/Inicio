@@ -18,7 +18,7 @@ struct Estilista
 
 struct Roupa
 {
-	int codigo_Roupa, codigo_estilista, codigo_estacao;
+	int codigo_roupa, codigo_estilista, codigo_estacao;
 	char descricao_roupa[30];
 	float valor;
 };
@@ -63,9 +63,9 @@ int main()
 		else if (op == 2)
 			cadastra_estac(b);
 		else if (op == 3)
-			cadastra_roupa(c,b,a);
+			cadastra_roupa(c,a,b);
 		else if (op == 4)
-			busca_roupa(c,b);
+			busca_roupa(c,a);
 		else if (op == 5)
 			mostra_valores;
 		else if (op == 6)
@@ -91,12 +91,12 @@ int menu()
 		if (flag=0)
 		{
 			printf("\nDigite a Opcao do Menu :");
-			scanf("d", &m);
+			scanf("%d", &m);
 		}
 		else
 		{
 			printf("\n Opcao Invalida, digite novamente: ");
-			scanf("d", &m);
+			scanf("%d", &m);
 		}
 
 	}while(m<1 || m>7);
@@ -137,12 +137,11 @@ void cadastra_estac (struct Estacao estac[])
     scanf("%d", &estac[cad_estac].codigo_estacao);
     printf("\n Digite o Nome do Estilista: ");
     fgets(estac[cad_estac].nome_estacao, 30, stdin);
-    cad_estac = ++;
+    cad_estac++;
 }
 
-void cadastra_roupa (struct Roupa roup[]), struct Estilista estil[], struct Estacao estac[])
+void cadastra_roupa (struct Roupa roup[], struct Estilista estil[], struct Estacao estac[])
 {
-
 	int i, j;
 	int cod_estilista;
 	int cod_estacao;
@@ -155,6 +154,7 @@ void cadastra_roupa (struct Roupa roup[]), struct Estilista estil[], struct Esta
         {
     		printf("\n Digite o codigo da Estacao: ");
     		scanf("%d", &cod_estacao);
+        }
         else
         {
         	printf("\n Estilista nao cadastrado, digite novamente: ");
@@ -164,26 +164,26 @@ void cadastra_roupa (struct Roupa roup[]), struct Estilista estil[], struct Esta
         	{
         		if (cod_estacao == estil[cad_estil].codigo_estilista)
         		{
-        			roup[cad_roupa].codigo_roupa = +1;
-        			printf("\n Codigo da Roupa: %d",roup[cad_roupa].codigo_roupa);
-					roupa[cad_roup].codigo_estilista = estil[cad_estil].codigo_estilista
-        			printf("\n Codigo do Estilista: %d",roupa[cad_roup].codigo_estilista);
-					roupa[cad_roup].codigo_estacao = estil[cad_estac].codigo_estacao);
-        			printf("\n Codigo da Estacao: %d",roupa[cad_roup].codigo_estacao);
+        			roup[cad_roupa].codigo_roupa = cad_roupa+1;
+        			printf("\n Codigo da Roupa: %d", roup[cad_roupa].codigo_roupa);
+					roup[cad_roupa].codigo_estilista = estil[cad_estil].codigo_estilista;
+        			printf("\n Codigo do Estilista: %d",roup[cad_roupa].codigo_estilista);
+					roup[cad_roupa].codigo_estacao = estac[cad_estac].codigo_estacao;
+        			printf("\n Codigo da Estacao: %d",roup[cad_roupa].codigo_estacao);
 					printf("\n Digite a Descricao da roupa: ");
             		fgets(roup[cad_roupa].descricao_roupa, 30, stdin);
             		printf("\n Digite o valor da Roupa: ");
             		scanf("%f", &roup[cad_roupa].valor);
-            		soma_valor = soma_valor + roup[cad_roupa].valor
+            		soma_valor = soma_valor + roup[cad_roupa].valor;
             		divisor = divisor + 1;
 
-            		if (valor_alto < roup[cad_roupa].valor);
+            		if (valor_alto < roup[cad_roupa].valor)
             		{
-						maior_valor = roup[cad_roupa].valor
+						valor_alto = roup[cad_roupa].valor;
 					}
-					if (menor_baixo > roup[cad_roupa].valor);
+					if (valor_baixo > roup[cad_roupa].valor)
             		{
-						menor_baixo = roup[cad_roupa].valor
+						valor_baixo = roup[cad_roupa].valor;
 					}
         		}
         		else
@@ -191,10 +191,7 @@ void cadastra_roupa (struct Roupa roup[]), struct Estilista estil[], struct Esta
         				printf("\n Estacao nao cadastrada");
 					}
 			}
-     	}
-        else
-        {
-
+    }
 }
 
 void busca_roupa (struct Roupa roup[], struct Estilista estil[])
@@ -205,14 +202,14 @@ void busca_roupa (struct Roupa roup[], struct Estilista estil[])
 	printf("\n Digite o nome do Estista: ");
 	fgets(pesq_estilista, 30, stdin);
 
-	 for(i=0; i<cad_stil; i++)
+	 for(i=0; i<cad_estil; i++)
     {
-    	if	((strcmp)pesq_estilista, estil[cad_estil].nome_estilista)=0);
+    	if(strcmp(pesq_estilista, estil[cad_estil].nome_estilista)==0)
     	{
     		for (j=0; j<cad_roupa; i++)
     		{
-    			printf("\nRoupas do Estilista, %s", estil[cad_estil].nome_estilista )
-    			printf("\n Descricao da roupa: ", roup[cad_roupa].descricao_roupa);
+    			printf("\nRoupas do Estilista: %s", estil[cad_estil].nome_estilista )
+    			printf("\n Descricao da roupa: %s", roup[cad_roupa].descricao_roupa);
 
 			}
 		}
@@ -247,5 +244,3 @@ void relatorio (struct Roupa roup[], struct Estilista estil[])
 
 
 }
-
-
