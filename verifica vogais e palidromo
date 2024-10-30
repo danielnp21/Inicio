@@ -1,0 +1,53 @@
+Programa que verifica se as vogais na frase e altera para asterisco 
+#include <stdio.h> 
+#include <string.h> 
+int main() 
+{ 
+ int i, tam; 
+ char frase[30]; 
+ 
+ prinƞ("Digite um frase: ");
+ fgets (frase, 30, stdin); 
+ 
+ //Descobrir o tamnho da frase 
+ tam = strlen(frase); 
+ tam = tam-1; 
+ 
+ for (i=0; i<tam; i++){ // faz o loop enquanto a variavel i for menor que a varialvel tamanho 
+ if(frase[i]== 'a'|| frase[i]== 'e' || frase[i]== 'i' || frase[i]== 'o' || frase[i]== 'u' || frase[i] == 
+'A' || frase[i] == 'E' || frase[i] == 'I' || frase[i] == 'O' || frase[i] == 'U') 
+ { 
+ frase[i] = '*'; //atribui * se na posição i conter vogal 
+ } 
+ } 
+ prinƞ("\nNova Frase: %s", frase); 
+} 
+Programa que verifica se a palavra é palíndromo 
+#include <stdio.h> 
+#include <string.h> 
+int main() 
+{ 
+ char palavra[20], palin[1]; 
+ int i, tam; 
+ 
+prinƞ("\n Digite a Palavra: "); 
+ fgets(palavra, 20, stdin); 
+ tam = strlen(palavra); 
+ 
+ tam = tam-1; 
+ for(i=0; i<tam/2; i++) 
+ { 
+ if(palavra[i]!= palavra[tam-1-i]) 
+ { 
+ palin[0]='f'; 
+ } 
+ } 
+ if (palin[0]== 'f') 
+ { 
+ prinƞ("\n\nNao e Palindromo"); 
+ } 
+ else 
+ { 
+ prinƞ("\n\nSim, e Palindromo"); 
+ } 
+}
