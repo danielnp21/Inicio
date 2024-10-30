@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<string.h>
+void escreva_frase (char cadeia[])
+{
+	if(strcmp(cadeia, ".\n")!=0)
+	{
+		FILE *p;
+		p = fopen("C:/Users/User/Documents/Aula/arquivo_aula.txt", "a");
+		fputs(cadeia, p);
+		fclose(p);
+	}
+}
+int main()
+{
+	char frase [50];
+		
+	do
+	{
+		printf("Digite uma frase: ");
+		setbuf (stdin, 0);
+		fgets (frase, sizeof(frase), stdin);
+		escreva_frase (frase);
+		
+	}while(strcmp(frase, ".\n") != 0);
+	
+	
+	FILE *p;
+	char cadeia [50], sovogal[50];
+	int vogal = 0, letras = 0, linhas = 0, i, j;
+
+
+	
+	p = fopen("C:/Users/User/Documents/Aula/arquivo_aula.txt", "r");
+	
+	if (p == NULL)
+		printf("\nErro na abertura");
+	else
+	{
+		while(fgets(cadeia, sizeof(cadeia), p)!=NULL)
+		{
+		
+			printf(" %s", cadeia);
+			linhas ++;
+			letras += strlen(cadeia)-1;
+					
+			for (i=0; i<strlen(cadeia); i++)
+			{
+				if(cadeia[i]== 'a'|| cadeia[i]== 'e' || cadeia[i]== 'i' || cadeia[i]== 'o' || cadeia[i]== 'u' || cadeia[i] == 
+				'A' || cadeia[i] == 'E' || cadeia[i] == 'I' || cadeia[i] == 'O' || cadeia[i] == 'U') 
+				{ 
+			 		vogal ++;
+			 		sovogal[j]=cadeia[i];
+			 		j++;
+				}
+			}
+		}
+		
+	}
+
+	fclose(p);
+	printf("\n Quantidade de Linhas: %d", linhas);
+	printf("\n Quantidade de Letras: %d", letras);
+	printf("\n Quantidade de vogais: %d", vogal);
+	printf("\n Vogais digitadas: %s", sovogal);
+	return 0;
+}
