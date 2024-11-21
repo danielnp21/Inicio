@@ -1,0 +1,94 @@
+Programação de Computadores II
+
+Atividade A4-T1
+
+Aluno: Daniel Nunes Pereira
+
+
+Estudo de Caso: Sistema de Gestão de Vendas para Empresa de Produtos Agropecuários 
+
+Descrição do Estudo de Caso 
+
+O objetivo deste projeto é desenvolver um sistema em linguagem C para uma empresa de produtos agropecuários. O sistema será responsável por gerenciar informações de clientes, produtos, vendedores e vendas, além de gerar relatórios de vendas por produto, vendedor e cliente. 
+
+Importância do Sistema 
+
+Ter um sistema para gerenciar essas informações é crucial para a eficiência e eficácia das operações da empresa. Um sistema bem estruturado permite: 
+•	Melhor Controle: Facilita o acompanhamento de vendas, estoque e desempenho dos vendedores. 
+•	Tomada de Decisões: Proporciona dados precisos e atualizados para a tomada de decisões estratégicas. 
+•	Otimização de Processos: Automatiza tarefas repetitivas, reduzindo erros e aumentando a produtividade. 
+•	Satisfação do Cliente: Melhora o atendimento ao cliente ao fornecer informações rápidas e precisas. 
+
+Requisitos 
+
+1.	Cadastro de Clientes: O sistema deve permitir o cadastro com código, nome e telefone e exclusão de clientes.
+2.	Cadastro de Produtos: O sistema deve permitir o cadastro de produtos com código, nome, quantidade em estoque e valor. 
+3.	Cadastro de Vendedores: O sistema deve permitir o cadastro com código, nome e telefone e exclusão de vendedores. 
+4.	Registro de Vendas: O sistema deve permitir o registro de vendas com código do cliente, código do produto, código do vendedor, nome do produto, quantidade vendida e valor da venda. 
+5.	Relatórios: O sistema deve gerar relatórios de vendas por produto, por vendedor e por cliente. 
+
+
+
+
+
+
+Funcionalidades 
+
+•	Adicionar Cliente: Função para adicionar um novo cliente ao sistema. 
+•	Excluir Cliente: Função para excluir o cliente do sistema. 
+•	Adicionar Produto: Função para adicionar um novo produto ao sistema. 
+•	Adicionar Vendedor: Função para adicionar um novo vendedor ao sistema. 
+•	Excluir Vendedor: Função para excluir o vendedor do sistema. 
+•	Registrar Venda: Função para registrar uma nova venda no sistema. 
+•	Gerar Relatórios: Função para gerar relatórios de vendas por produto, vendedor e cliente. 
+
+Operações 
+
+•	Adicionar Cliente: Solicita os dados do cliente e armazena na struct correspondente. 
+•	Excluir Cliente: Exclui o cliente copiando o cliente do índice posterior para a posição do dado excluído.  
+•	Adicionar Produto: Solicita os dados do produto e armazena na struct correspondente. 
+•	Adicionar Vendedor: Solicita os dados do vendedor e armazena na struct correspondente. 
+•	Excluir Vendedor: Exclui o vendedor copiando o vendedor do índice posterior para a posição do dado excluído. 
+•	Registrar Venda: Solicita os dados da venda e armazena na struct correspondente. 
+•	Gerar Relatórios: Processa os dados armazenados e gera relatórios conforme solicitado. 
+
+Estruturas 
+
+// Estrutura para Cliente 
+struct Cliente { 
+   int codigo_cliente; 
+   char nome_cliente[100]; 
+   char telefone[15]; 
+}; 
+ 
+// Estrutura para Produto 
+struct Produto { 
+   int codigo_produto; 
+   char nome_produto[100]; 
+   int quantidade_estoque; 
+   float valor_produto; 
+}; 
+ 
+// Estrutura para Vendedor 
+struct Vendedor { 
+   int codigo_vendedor; 
+   char nome_vendedor[100]; 
+   char telefone[15]; 
+}; 
+ 
+
+// Estrutura para Venda 
+struct Venda { 
+   int codigo_cliente; 
+   int codigo_produto; 
+   int codigo_vendedor; 
+   char nome_produto[100]; 
+   int quantidade_vendida; 
+   float valor_venda; 
+}; 
+ 
+
+Versão Evolutiva 
+
+Por se tratar de um estudo de caso, inicialmente o sistema irá gravar os dados na memória do computador, todavia pretende-se criar uma versão em que os dados serão gravados em um arquivo no computador.
+
