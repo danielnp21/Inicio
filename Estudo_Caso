@@ -1,0 +1,122 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#define TAM 3
+int cadastrados = 0;
+
+// Estrutura para Cliente 
+typedef struct Cliente { 
+   int codigo_cliente; 
+   char nome_cliente[100]; 
+   char telefone[15]; 
+};
+ 
+// Estrutura para Produto 
+typedef struct Produto { 
+   int codigo_produto; 
+   char nome_produto[100]; 
+   int quantidade_estoque; 
+   float valor_produto; 
+};
+ 
+// Estrutura para Vendedor 
+typedef struct Vendedor { 
+   int codigo_vendedor; 
+   char nome_vendedor[100]; 
+   char telefone[15]; 
+}; 
+
+// Estrutura para Venda 
+typedef struct Venda { 
+   int codigo_cliente; 
+   int codigo_produto; 
+   int codigo_vendedor; 
+   char nome_produto[100]; 
+   int quantidade_vendida; 
+   float valor_venda; 
+};
+
+
+
+
+
+};
+int menu();
+void cadastro_cli(struct Cliente[]);
+void exclui_cli(struct Cliente[]);
+void cadastro_prod(struct Produto[]);
+void cad_vendedor(struct Vendedor[]);
+void exc_vendedor(struct Vendedor[]);
+void registro_venda(struct Cliente[], Produto[], Vendedor[], Venda[]);
+
+int main()
+{
+  	struct Cliente [];
+	struct Produto[];
+	struct Vendedor[];
+	struct Venda[];
+ 
+    int op;
+    do
+    {
+        op = menu();
+        if(op == 1)
+            cadastro(a);
+        else if(op == 2)
+            busca(a);
+        else if(op == 3)
+            lista(a);
+            else if(op == 4)
+            exclui(a);
+            
+    }while(op != 5);
+}
+int menu()
+{
+    int m, flag = 0;
+    do
+    {
+        printf("\n==== Menu ====");
+        printf("\n1 - Cadastro");
+        printf("\n2 - Busca");
+        printf("\n3 - Lista");
+        printf("\n4 - Exclui");
+        printf("\n5 - Sair");
+        if(flag == 0)
+        {
+            printf("\nDigite a opcao: ");
+            scanf("%d", &m);
+            flag = 1;
+        }
+        else
+        {
+            printf("\nOpcao invalida! Digite novamente: ");
+            scanf("%d", &m);
+        }
+    }while(m < 1 || m > 5);
+    return m;
+}
+void cadastro_cli(struct Cliente[]);
+{
+	
+}
+void exclui_cli(struct Cliente[]);
+{
+	
+}
+void cadastro_prod(struct Produto[]);
+{
+	
+}
+void cad_vendedor(struct Vendedor[]);
+{
+	
+}
+void exc_vendedor(struct Vendedor[]);
+{
+	
+}
+void registro_venda(struct Cliente[], Produto[], Vendedor[], Venda[]);
+{
+	
+}
