@@ -49,7 +49,8 @@ void exclui_cli(Cliente cli[]);
 void cadastro_prod(Produto prod[]);
 void cad_vendedor(Vendedor func[]);
 void exclui_vendedor(Vendedor func[]);
-void relatorio_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]);
+void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]);
+void relatorio_venda(Cliente cli[], Produto prod[], Vendedor func[],Venda vend[]);
 void menu_exclusao(Cliente cli[], Vendedor func[]);
 void menu_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]);
 
@@ -71,11 +72,13 @@ int main()
 		else if(op == 3)
 			cadastro_prod(prod);
 		else if(op == 4)
-				menu_exclusao(cli, func);
-        else if(op == 5)
-                menu_relatorios(cli, prod, func, vend);
+		    realizar_venda(cli, prod, func, vend);
+		else if(op == 5)
+			menu_exclusao(cli, func);
+        else if(op == 6)
+            menu_relatorios(cli, prod, func, vend);
                 
-	} while(op != 6);
+	} while(op != 7);
 }
 
 int menu()
@@ -87,9 +90,10 @@ int menu()
 		printf("\n1 - Cadastrar Clientes");
 		printf("\n2 - Cadastrar Vendedor");
 		printf("\n3 - Cadastrar Produto");
-		printf("\n4 - Menu de Exclusão");
-		printf("\n5 - Menu de Relatórios");
-		printf("\n6 - Sair");
+		printf("\n4 - Realizar Venda");
+		printf("\n5 - ---> Menu de Exclusão");
+		printf("\n6 - ---> Menu de Relatórios");
+		printf("\n7 - Sair");
 		if(flag == 0)
 		{
 			printf("\nDigite a opcao: ");
@@ -101,7 +105,7 @@ int menu()
 			printf("\nOpcao invalida! Digite novamente: ");
 			scanf("%d", &m);
 		}
-	} while(m < 1 || m > 6);
+	} while(m < 1 || m > 7);
 	return m;
 }
 
@@ -156,21 +160,40 @@ void menu_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[
 
 void cadastro_cli(Cliente cli[])
 {
-	printf("Digite o Código do Cliente: ");
-    setbuf(stdin, NULL);
-    scanf("%d", &cli[cont_cli].codigo_cliente);
+    int codigo, i, achou = 0;
 
-    printf("Digite o Nome do Cliente: ");
+    printf("Digite o Código do Cliente: ");
     setbuf(stdin, NULL);
-    fgets(cli[cont_cli].nome_cliente, sizeof(cli[cont_cli].nome_cliente), stdin);
-    
-    printf("Digite o telefone do cliente: ");
-    setbuf(stdin, NULL);
-    fgets(cli[cont_cli].telefone, sizeof(cli[cont_cli].telefone), stdin);
-    
+    scanf("%d", &codigo);
 
-    cont_cli++;
-    printf("Cliente cadastrado com sucesso!\n");
+    if (codigo <= 0) {
+        printf("Código do cliente deve ser positivo.\n");
+        return;
+    }
+
+    for (i = 0; i < cont_cli; i++) {
+        if (codigo == cli[i].codigo_cliente) {
+            printf("Código de cliente já existe.\n");
+            achou = 1;
+            break;
+        }
+    }
+
+    if (!achou) {
+        cli[cont_cli].codigo_cliente = codigo;
+
+        printf("Digite o Nome do Cliente: ");
+        setbuf(stdin, NULL);
+        fgets(cli[cont_cli].nome_cliente, sizeof(cli[cont_cli].nome_cliente), stdin);
+        
+
+        printf("Digite o Telefone do Cliente: ");
+        setbuf(stdin, NULL);
+        fgets(cli[cont_cli].telefone, sizeof(cli[cont_cli].telefone), stdin);
+        
+        cont_cli++;
+        printf("Cliente cadastrado com sucesso!\n");
+    }
 }
 void exclui_cli(Cliente cli[])
 {
@@ -178,41 +201,95 @@ void exclui_cli(Cliente cli[])
 }
 void cadastro_prod(Produto prod[])
 {
-	printf("Deu certo cad prod");
-}
-void cad_vendedor(Vendedor func[])
-{
-	int i, achou=0, codigo;
-	printf("Digite o Código do Vendedor: ");
+    int codigo, i, achou = 0;
+    float valor;
+    int quantidade;
+
+    printf("Digite o Código do Produto: ");
     setbuf(stdin, NULL);
     scanf("%d", &codigo);
 
-   	for (int i = 0; i < cont_func; i++) {
-    {
-        if (codigo == func[cont_func].codigo_vendedor)
-        {
+    if (codigo <= 0) {
+        printf("Código do produto deve ser positivo.\n");
+        return;
+    }
+
+    for (i = 0; i < cont_prod; i++) {
+        if (codigo == prod[i].codigo_produto) {
+            printf("Código de produto já existe.\n");
+            achou = 1;
+            break;
+        }
+    }
+
+    if (!achou) {
+        prod[cont_prod].codigo_produto = codigo;
+
+        printf("Digite o Nome do Produto: ");
+        setbuf(stdin, NULL);
+        fgets(prod[cont_prod].nome_produto, sizeof(prod[cont_prod].nome_produto), stdin);
+        
+
+        printf("Digite a Quantidade em Estoque: ");
+        scanf("%d", &quantidade);
+
+        printf("Digite o Valor do Produto: ");
+        scanf("%f", &valor);
+
+
+        prod[cont_prod].quantidade_estoque = quantidade;
+        prod[cont_prod].valor_produto = valor;
+
+        cont_prod++;
+        printf("Produto cadastrado com sucesso!\n");
+    }
+}
+void cad_vendedor(Vendedor func[])
+{
+    int codigo, i, achou = 0;
+
+    printf("Digite o Código do Vendedor: ");
+    setbuf(stdin, NULL);
+    scanf("%d", &codigo);
+
+    // Verificar se o código é positivo
+    if (codigo <= 0) {
+        printf("Código do vendedor deve ser positivo.\n");
+        return;
+    }
+
+    // Verificar se o código já existe
+    for (i = 0; i < cont_func; i++) {
+        if (codigo == func[i].codigo_vendedor) {
             printf("Código de vendedor já existe.\n");
             achou = 1;
             break;
         }
-        if achou ==0)
-        {
-            printf("Digite o Nome do Vendedor: ");
-            setbuf(stdin, NULL);
-            fgets(func[cont_func].nome_vendedor, sizeof(func[cont_func].nome_vendedor), stdin);
-            
-            printf("Digite o Telefone do Vendedor: ");
-            setbuf(stdin, NULL);
-            fgets(func[cont_func].telefone, sizeof(func[cont_func].telefone), stdin);
-            
-            cont_func++;
-            printf("Vendedor cadastrado com sucesso!\n");
-        }
+    }
+
+    if (!achou) {
+        func[cont_func].codigo_vendedor = codigo;
+
+        printf("Digite o Nome do Vendedor: ");
+        setbuf(stdin, NULL);
+        fgets(func[cont_func].nome_vendedor, sizeof(func[cont_func].nome_vendedor), stdin);
+        
+        printf("Digite o Telefone do Vendedor: ");
+        setbuf(stdin, NULL);
+        fgets(func[cont_func].telefone, sizeof(func[cont_func].telefone), stdin);
+        
+        cont_func++;
+        printf("Vendedor cadastrado com sucesso!\n");
+    }
 
 }
 void exclui_vendedor(Vendedor func[])
 {
 	printf("Deu certo exc vend");
+}
+void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[])
+{
+    printf("Deu certo realizar venda");
 }
 void relatorio_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[])
 {
