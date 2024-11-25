@@ -223,14 +223,14 @@ void cadastro_prod(Produto prod[])
         
 
         printf("Digite a Quantidade em Estoque: ");
-        scanf("%d", &quantidade);
+        scanf("%d", &prod[cont_prod].quantidade_estoque);
 
         printf("Digite o Valor do Produto: ");
-        scanf("%f", &valor);
+        scanf("%f", &prod[cont_prod].valor_produto);
 
 
-        prod[cont_prod].quantidade_estoque = quantidade;
-        prod[cont_prod].valor_produto = valor;
+        //prod[cont_prod].quantidade_estoque = quantidade;
+        //prod[cont_prod].valor_produto = valor;
 
         cont_prod++;
         printf("Produto cadastrado com sucesso!\n");
@@ -276,56 +276,58 @@ void exclui_vendedor(Vendedor func[])
 
 void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]) {
     int codigo_cliente, codigo_produto, codigo_vendedor, quantidade, i;
-    int cliente_encontrado = 0, produto_encontrado = 0, vendedor_encontrado = 0;
+    int achou_cliente = 0, achou_produto = 0, achou_vendedor = 0;
 
-    // Solicitar e verificar o código do cliente
+    
     printf("Digite o código do cliente: ");
     scanf("%d", &codigo_cliente);
-    for (i = 0; i < cont_cli; i++) {
-        if (cli[i].codigo_cliente == codigo_cliente) {
-            cliente_encontrado = 1;
+    for (i = 0; i < cont_cli; i++) 
+    {
+        if (cli[i].codigo_cliente == codigo_cliente) 
+        {
+            achou_cliente = 1;
             break;
         }
     }
-    if (!cliente_encontrado) {
+    if (!achou_cliente) 
+    {
         printf("Cliente não encontrado.\n");
         return;
     }
 
-    // Solicitar e verificar o código do vendedor
+    
     printf("Digite o código do vendedor: ");
     scanf("%d", &codigo_vendedor);
-    for (i = 0; i < cont_func; i++) {
+    for (i = 0; i < cont_func; i++) 
+    {
         if (func[i].codigo_vendedor == codigo_vendedor) {
-            vendedor_encontrado = 1;
+            achou_vendedor = 1;
             break;
         }
     }
-    if (!vendedor_encontrado) {
+    if (!achou_vendedor) {
         printf("Vendedor não encontrado.\n");
         return;
     }
 
-    // Solicitar e verificar o código do produto
     printf("Digite o código do produto: ");
     scanf("%d", &codigo_produto);
+    
     for (i = 0; i < cont_prod; i++) {
-        if (prod[i].codigo_produto == codigo_produto) {
-            produto_encontrado = 1;
-
-            // Verificar a quantidade disponível no estoque
+        if (prod[i].codigo_produto == codigo_produto) 
+        {
             printf("Digite a quantidade a ser vendida: ");
             scanf("%d", &quantidade);
+            achou_produto = 1;
 
-            if (quantidade > prod[i].quantidade_estoque) {
+            if (quantidade > prod[i].quantidade_estoque) 
+            {
                 printf("Quantidade indisponível no estoque.\n");
                 return;
             }
 
-            // Atualizar o estoque
             prod[i].quantidade_estoque -= quantidade;
 
-            // Registrar a venda
             vend[cont_vend].codigo_cliente = codigo_cliente;
             vend[cont_vend].codigo_vendedor = codigo_vendedor;
             vend[cont_vend].codigo_produto = codigo_produto;
@@ -338,7 +340,8 @@ void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]
             return;
         }
     }
-    if (!produto_encontrado) {
+    if (!achou_produto) 
+    {
         printf("Produto não encontrado.\n");
         return;
     }
@@ -347,58 +350,85 @@ void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]
 
 void relatorio_venda_produto(Produto prod[], Venda vend[]) {
     printf("\n==== Relatório de Vendas por Produto ====\n");
-    for (int i = 0; i < cont_prod; i++) {
-        int total_quantidade = 0;
-        float total_vendas = 0;
-
-        for (int j = 0; j < cont_vend; j++) {
-            if (prod[i].codigo_produto == vend[j].codigo_produto) {
-                total_quantidade += vend[j].quantidade_vendida;
-                total_vendas += vend[j].valor_venda;
+    
+    if(cont_vend== 0 )
+        printf("Nenhuma Venda Realizada");
+    else
+    {
+        for (int i = 0; i < cont_prod; i++) 
+        {
+            int total_quantidade = 0;
+            float total_vendas = 0;
+    
+            for (int j = 0; j < cont_vend; j++) {
+                if (prod[i].codigo_produto == vend[j].codigo_produto) 
+                {
+                    total_quantidade += vend[j].quantidade_vendida;
+                    total_vendas += vend[j].valor_venda;
+                }
             }
-        }
-
-        if (total_quantidade > 0) {
-            printf("Produto: %s", prod[i].nome_produto);
-            printf("Código: %d | Quantidade Vendida: %d | Total de Vendas: R$ %.2f\n",
-                   prod[i].codigo_produto, total_quantidade, total_vendas);
+    
+            if (total_quantidade > 0) 
+            {
+                printf("Produto: %s", prod[i].nome_produto);
+                printf("Código: %d | Quantidade Vendida: %d | Total de Vendas: R$ %.2f\n",
+                       prod[i].codigo_produto, total_quantidade, total_vendas);
+            }
         }
     }
 }
 
 void relatorio_venda_vendedor(Vendedor func[], Venda vend[]) {
     printf("\n==== Relatório de Vendas por Vendedor ====\n");
-    for (int i = 0; i < cont_func; i++) {
-        float total_vendas = 0;
+    
+   if(cont_vend== 0 )
+        printf("Nenhuma Venda Realizada");
+    else
+    {
 
-        for (int j = 0; j < cont_vend; j++) {
-            if (func[i].codigo_vendedor == vend[j].codigo_vendedor) {
-                total_vendas += vend[j].valor_venda;
+        for (int i = 0; i < cont_func; i++) 
+        {
+            float total_vendas = 0;
+    
+            for (int j = 0; j < cont_vend; j++) 
+            {
+                if (func[i].codigo_vendedor == vend[j].codigo_vendedor) {
+                    total_vendas += vend[j].valor_venda;
+                }
+            }
+    
+            if (total_vendas > 0) {
+                printf("Vendedor: %s", func[i].nome_vendedor);
+                printf("Código: %d | Total de Vendas: R$ %.2f\n", func[i].codigo_vendedor, total_vendas);
             }
         }
-
-        if (total_vendas > 0) {
-            printf("Vendedor: %s", func[i].nome_vendedor);
-            printf("Código: %d | Total de Vendas: R$ %.2f\n", func[i].codigo_vendedor, total_vendas);
-        }
     }
+        
 }
 
 void relatorio_venda_cliente(Cliente cli[], Venda vend[]) {
     printf("\n==== Relatório de Vendas por Cliente ====\n");
-    for (int i = 0; i < cont_cli; i++) {
-        float total_vendas = 0;
-
-        for (int j = 0; j < cont_vend; j++) {
-            if (cli[i].codigo_cliente == vend[j].codigo_cliente) {
-                total_vendas += vend[j].valor_venda;
+    
+   if(cont_vend== 0 )
+        printf("Nenhuma Venda Realizada");
+    else
+    {
+        for (int i = 0; i < cont_cli; i++) {
+            float total_vendas = 0;
+    
+            for (int j = 0; j < cont_vend; j++) {
+                if (cli[i].codigo_cliente == vend[j].codigo_cliente) {
+                    total_vendas += vend[j].valor_venda;
+                }
+            }
+    
+            if (total_vendas > 0) {
+                printf("Cliente: %s", cli[i].nome_cliente);
+                printf("Código: %d | Total de Vendas: R$ %.2f\n", cli[i].codigo_cliente, total_vendas);
             }
         }
 
-        if (total_vendas > 0) {
-            printf("Cliente: %s", cli[i].nome_cliente);
-            printf("Código: %d | Total de Vendas: R$ %.2f\n", cli[i].codigo_cliente, total_vendas);
-        }
-    }
+    }    
 }
+
 
