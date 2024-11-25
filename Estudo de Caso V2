@@ -1,0 +1,586 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#define TAM 10
+#define T_PROD 30
+#define T_VEND 30
+
+int cont_cli = 0;
+int cont_func = 0;
+int cont_prod = 0;
+int cont_vend = 0;
+
+// Estrutura para Cliente
+typedef struct Cliente {
+	int codigo_cliente;
+	char nome_cliente[100];
+	char telefone[15];
+} Cliente;
+
+// Estrutura para Produto
+typedef struct Produto {
+	int codigo_produto;
+	char nome_produto[100];
+	int quantidade_estoque;
+	float valor_produto;
+} Produto;
+
+// Estrutura para Vendedor
+typedef struct Vendedor {
+	int codigo_vendedor;
+	char nome_vendedor[100];
+	char telefone[15];
+} Vendedor;
+
+// Estrutura para Venda
+typedef struct Venda {
+	int codigo_cliente;
+	int codigo_produto;
+	int codigo_vendedor;
+	char nome_produto[100];
+	int quantidade_vendida;
+	float valor_venda;
+} Venda;
+
+
+int menu();
+void cadastro_cli(Cliente cli[]);
+void exclui_cli(Cliente cli[], Venda vend[]);
+void cadastro_prod(Produto prod[]);
+void cad_vendedor(Vendedor func[]);
+void exclui_vendedor(Vendedor func[], Venda vend[]);
+void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]);
+void menu_exclusao(Cliente cli[], Vendedor func[], Venda vend[]);
+void menu_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]);
+void relatorio_venda_cliente(Cliente cli[], Venda vend[]);
+void relatorio_venda_vendedor(Vendedor func[], Venda vend[]);
+void relatorio_venda_produto(Produto prod[], Venda vend[]);
+void importar_dados(Cliente cli[], Vendedor func[], Produto prod[]);
+
+int main()
+{
+	struct Cliente cli[TAM];
+	struct Vendedor func[TAM];
+	struct Produto prod[T_PROD];
+	struct Venda vend[T_VEND];
+
+	int op;
+	do
+	{
+		op = menu();
+		if(op == 1)
+			cadastro_cli(cli);
+		else if(op == 2)
+			cad_vendedor(func);
+		else if(op == 3)
+			cadastro_prod(prod);
+		else if(op == 4)
+			realizar_venda(cli, prod, func, vend);
+		else if(op == 5)
+			menu_exclusao(cli, func, vend);
+		else if(op == 6)
+			menu_relatorios(cli, prod, func, vend);
+		else if(op == 7)
+			importar_dados(cli, func, prod);
+			
+	} while(op != 8);
+}
+
+int menu()
+{
+	int m, flag = 0;
+	do
+	{
+		printf("\n==== MENU PRINCIPAL ===="); 
+		printf("\n1 - Cadastrar Clientes");
+		printf("\n2 - Cadastrar Vendedor");
+		printf("\n3 - Cadastrar Produto");
+		printf("\n4 - Realizar Venda");
+		printf("\n5 - ---> Menu de Exclusão");
+		printf("\n6 - ---> Menu de Relatórios");
+		printf("\n7 - importar Dados");
+		printf("\n8 - Sair");
+		if(flag == 0)
+		{
+			printf("\nDigite a opcao: ");
+			scanf("%d", &m);
+			flag = 1;
+		}
+		else
+		{
+			printf("\nOpcao invalida! Digite novamente: ");
+			scanf("%d", &m);
+		}
+	} while(m < 1 || m > 8);
+	return m;
+}
+
+void menu_exclusao(Cliente cli[], Vendedor func[], Venda vend[])
+{
+	int sub_op;
+	do {
+		printf("\n==== Menu de ExclusC#o ====");
+		printf("\n1 - Excluir Cliente");
+		printf("\n2 - Excluir Vendedor");
+		printf("\n3 - Voltar ao Menu Principal");
+		printf("\nDigite a opcao: ");
+		scanf("%d", &sub_op);
+
+		if (sub_op == 1)
+			exclui_cli(cli, vend);
+		else if (sub_op == 2)
+			exclui_vendedor(func, vend);
+		else if (sub_op == 3)
+			printf("\nVoltando ao Menu Principal...\n");
+		else
+			printf("\nOpcao inválida! Digite novamente.\n");
+
+	} while (sub_op != 3);
+}
+
+void menu_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[])
+{
+	int sub_op;
+	do {
+		printf("\n==== Menu de RelatC3rios ====");
+		printf("\n1 - Relatório de Venda por Produto");
+		printf("\n2 - Relatório de Venda por Vendedor");
+		printf("\n3 - Relatório de Venda por Cliente");
+		printf("\n4 - Voltar ao Menu Principal");
+		printf("\nDigite a opcao: ");
+		scanf("%d", &sub_op);
+
+		if (sub_op == 1)
+			relatorio_venda_produto(prod, vend);
+		else if (sub_op == 2)
+			relatorio_venda_vendedor(func, vend);
+		else if (sub_op == 3)
+			relatorio_venda_cliente(cli, vend);
+		else if (sub_op == 4)
+			printf("\nVoltando ao Menu Principal...\n");
+		else
+			printf("\nOpcao inválida! Digite novamente.\n");
+
+	} while (sub_op != 4);
+}
+
+
+void cadastro_cli(Cliente cli[])
+{
+	int codigo, i, achou = 0;
+
+	printf("Digite o Código do Cliente: ");
+	setbuf(stdin, NULL);
+	scanf("%d", &codigo);
+
+	for (i = 0; i < cont_cli; i++) {
+		if (codigo == cli[i].codigo_cliente) {
+			printf("Código de cliente já existe.\n");
+			achou = 1;
+			break;
+		}
+	}
+
+	if (!achou) {
+		cli[cont_cli].codigo_cliente = codigo;
+
+		printf("Digite o Nome do Cliente: ");
+		setbuf(stdin, NULL);
+		fgets(cli[cont_cli].nome_cliente, sizeof(cli[cont_cli].nome_cliente), stdin);
+
+
+		printf("Digite o Telefone do Cliente: ");
+		setbuf(stdin, NULL);
+		fgets(cli[cont_cli].telefone, sizeof(cli[cont_cli].telefone), stdin);
+
+		cont_cli++;
+		printf("Cliente cadastrado com sucesso!\n");
+	}
+}
+void exclui_cli(Cliente cli[], Venda vend[])
+{
+    int codigo, i, j;
+    int achou_cliente = 0, achou_vendas = 0;
+    
+    if (cont_cli == 0) {
+    	printf("\nCadastro vazio!\n");
+    	return;
+    }
+    
+    printf("Digite o Código do Cliente a ser Excluído: ");
+    setbuf(stdin, NULL);
+    scanf("%d", &codigo);
+    
+    for (i = 0; i < cont_cli; i++)
+    {
+    	if (codigo ==cli[i].codigo_cliente)
+    	{
+    		achou_cliente = 1;
+    
+    		for (j = 0; j < cont_vend; j++) {
+    			if (vend[j].codigo_cliente == codigo) {
+    				printf("O cliente possui vendas vinculadas a ele e não pode ser excluído.\n");
+    				achou_vendas = 1;
+    				break;
+    			}
+    		}
+    
+    		if (!achou_vendas)
+    		{
+    			printf("Cliente '%s' Excluído com Sucesso.\n", cli[i].nome_cliente);
+    
+    			for (j = i; j < cont_cli - 1; j++) {
+    				cli[j] = cli[j + 1];
+    			}
+    			cont_cli--;
+    		}
+    		break;
+    	}
+    }
+    
+    if (!achou_cliente) {
+    	printf("Cliente não Encontrado.\n");
+}
+} void cadastro_prod(Produto prod[])
+{
+	int codigo, i;
+	float valor, total_valor_novo, total_valor_atual;
+	int quantidade;
+	int achou = 0;
+
+	printf("Digite o Código do Produto: ");
+	setbuf(stdin, NULL);
+	scanf("%d", &codigo);
+
+	for (i = 0; i < cont_prod; i++) {
+		if (codigo == prod[i].codigo_produto) {
+			printf("Produto já cadastrado.\n");
+
+			printf("Digite a Quantidade Adicional em Estoque: ");
+			scanf("%d", &quantidade);
+
+			printf("Digite o Valor do Produto: ");
+			scanf("%f", &valor);
+
+
+			total_valor_atual = prod[i].valor_produto * prod[i].quantidade_estoque;
+			total_valor_novo = valor * quantidade;
+			prod[i].quantidade_estoque += quantidade;
+			prod[i].valor_produto = (total_valor_atual + total_valor_novo) / prod[i].quantidade_estoque;
+
+			printf("Estoque atualizado com sucesso!\n");
+			achou = 1;
+			break;
+		}
+	}
+
+	if (!achou) {
+
+		prod[cont_prod].codigo_produto = codigo;
+
+		printf("Digite o Nome do Produto: ");
+		setbuf(stdin, NULL);
+		fgets(prod[cont_prod].nome_produto, sizeof(prod[cont_prod].nome_produto), stdin);
+
+		printf("Digite a Quantidade em Estoque: ");
+		scanf("%d", &prod[cont_prod].quantidade_estoque);
+
+		printf("Digite o Valor do Produto: ");
+		scanf("%f", &prod[cont_prod].valor_produto);
+		printf("Produto cadastrado com sucesso!\n");
+		cont_prod++;
+	}
+}
+
+void cad_vendedor(Vendedor func[])
+{
+	int codigo, i, achou = 0;
+
+	printf("Digite o Código do Vendedor: ");
+	setbuf(stdin, NULL);
+	scanf("%d", &codigo);
+
+
+	for (i = 0; i < cont_func; i++) {
+		if (codigo == func[i].codigo_vendedor) {
+			printf("Código de vendedor já existe.\n");
+			achou = 1;
+			break;
+		}
+	}
+
+	if (!achou) {
+		func[cont_func].codigo_vendedor = codigo;
+
+		printf("Digite o Nome do Vendedor: ");
+		setbuf(stdin, NULL);
+		fgets(func[cont_func].nome_vendedor, sizeof(func[cont_func].nome_vendedor), stdin);
+
+		printf("Digite o Telefone do Vendedor: ");
+		setbuf(stdin, NULL);
+		fgets(func[cont_func].telefone, sizeof(func[cont_func].telefone), stdin);
+
+		cont_func++;
+		printf("Vendedor cadastrado com sucesso!\n");
+	}
+
+}
+void exclui_vendedor(Vendedor func[], Venda vend[])
+{
+    int codigo, i, j;
+    int achou_vendedor = 0, achou_vendas = 0;
+
+    if (cont_func == 0) {
+        printf("\nCadastro de vendedores vazio!\n");
+        return;
+    }
+
+    printf("Digite o Código do Vendedor a ser Excluído: ");
+    setbuf(stdin, NULL);
+    scanf("%d", &codigo);
+
+    for (i = 0; i < cont_func; i++) {
+        if (codigo == func[i].codigo_vendedor) {
+            achou_vendedor = 1;
+
+            for (j = 0; j < cont_vend; j++) {
+                if (vend[j].codigo_vendedor == codigo) {
+                    printf("O vendedor possui vendas vinculadas a ele e não pode ser excluído.\n");
+                    achou_vendas = 1;
+                    break;
+                }
+            }
+
+            if (!achou_vendas) {
+                printf("Vendedor '%s' Excluído com Sucesso.\n", func[i].nome_vendedor);
+
+                for (j = i; j < cont_func - 1; j++) {
+                    func[j] = func[j + 1];
+                }
+                cont_func--;
+            }
+            break;
+        }
+    }
+
+    if (!achou_vendedor)
+    {
+        printf("Vendedor não Encontrado.\n");
+    }
+
+}
+
+void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]) {
+	int codigo_cliente, codigo_produto, codigo_vendedor, quantidade, i;
+	int achou_cliente = 0, achou_produto = 0, achou_vendedor = 0;
+
+
+	printf("Digite o Código do Cliente: ");
+	scanf("%d", &codigo_cliente);
+	for (i = 0; i < cont_cli; i++)
+	{
+		if (cli[i].codigo_cliente == codigo_cliente)
+		{
+			achou_cliente = 1;
+			break;
+		}
+	}
+	if (!achou_cliente)
+	{
+		printf("Cliente não Encontrado.\n");
+		return;
+	}
+
+
+	printf("Digite o Código do Vendedor: ");
+	scanf("%d", &codigo_vendedor);
+	for (i = 0; i < cont_func; i++)
+	{
+		if (func[i].codigo_vendedor == codigo_vendedor) {
+			achou_vendedor = 1;
+			break;
+		}
+	}
+	if (!achou_vendedor) {
+		printf("Vendedor não Encontrado.\n");
+		return;
+	}
+
+	printf("Digite o Código do Produto: ");
+	scanf("%d", &codigo_produto);
+
+	for (i = 0; i < cont_prod; i++) {
+		if (prod[i].codigo_produto == codigo_produto)
+		{
+			printf("Digite a Quantidade a ser Vendida: ");
+			scanf("%d", &quantidade);
+			achou_produto = 1;
+
+			if (quantidade > prod[i].quantidade_estoque)
+			{
+				printf("Quantidade Indisponível no Estoque.\n");
+				return;
+			}
+
+			prod[i].quantidade_estoque -= quantidade;
+
+			vend[cont_vend].codigo_cliente = codigo_cliente;
+			vend[cont_vend].codigo_vendedor = codigo_vendedor;
+			vend[cont_vend].codigo_produto = codigo_produto;
+			strcpy(vend[cont_vend].nome_produto, prod[i].nome_produto);
+			vend[cont_vend].quantidade_vendida = quantidade;
+			vend[cont_vend].valor_venda = quantidade * prod[i].valor_produto;
+
+			cont_vend++;
+			printf("Venda realizada com sucesso!\n");
+			return;
+		}
+	}
+	if (!achou_produto)
+	{
+		printf("Produto não Encontrado.\n");
+		return;
+	}
+}
+
+void relatorio_venda_produto(Produto prod[], Venda vend[]) 
+{
+	int i, j;
+	printf("\n==== Relatório de Vendas por Produto ====\n");
+
+	if(cont_vend== 0 )
+		printf("Nenhuma Venda Realizada");
+ else
+	{
+		for (i = 0; i < cont_prod; i++)
+		{
+			int total_quantidade = 0;
+			float total_vendas = 0;
+
+			for (j = 0; j < cont_vend; j++) {
+				if (prod[i].codigo_produto == vend[j].codigo_produto)
+				{
+					total_quantidade += vend[j].quantidade_vendida;
+					total_vendas += vend[j].valor_venda;
+				}
+			}
+			if (total_quantidade>0)
+			{
+			
+				printf("Produto: %s", prod[i].nome_produto);
+				printf("Código: %d | Quantidade Vendida: %d | Total de Vendas: R$ %.2f\n",
+			       prod[i].codigo_produto, total_quantidade, total_vendas);
+			}
+
+		}
+	}
+}
+void relatorio_venda_vendedor(Vendedor func[], Venda vend[]) {
+	int i, j;
+	printf("\n==== Relatório de Vendas por Vendedor ====\n");
+
+	if(cont_vend== 0 )
+		printf("Nenhuma Venda Realizada");
+	else
+	{
+
+		for (i = 0; i < cont_func; i++)
+		{
+			float total_vendas = 0;
+
+			for (j = 0; j < cont_vend; j++)
+			{
+				if (func[i].codigo_vendedor == vend[j].codigo_vendedor) {
+					total_vendas += vend[j].valor_venda;
+				}
+			}
+			if (total_vendas>0)
+			{
+				printf("Vendedor: %s", func[i].nome_vendedor);
+				printf("Código: %d | Total de Vendas: R$ %.2f\n", func[i].codigo_vendedor, total_vendas);
+			}
+		}
+	}
+
+}
+
+void relatorio_venda_cliente(Cliente cli[], Venda vend[]) {
+	int i, j;
+	printf("\n==== Relatório de Vendas por Cliente ====\n");
+
+	if(cont_vend== 0 )
+		printf("Nenhuma Venda Realizada");
+	else
+	{
+		for (i = 0; i < cont_cli; i++) {
+			float total_vendas = 0;
+
+			for (j = 0; j < cont_vend; j++) {
+				if (cli[i].codigo_cliente == vend[j].codigo_cliente) {
+					total_vendas += vend[j].valor_venda;
+				}
+			}
+			if (total_vendas>0)
+			{
+				printf("Cliente: %s", cli[i].nome_cliente);
+				printf("CC3digo: %d | Total de Vendas: R$ %.2f\n", cli[i].codigo_cliente, total_vendas);
+			}
+		}
+
+	}
+}
+
+void importar_dados(Cliente cli[], Vendedor func[], Produto prod[])
+ {
+    FILE *pcli;
+    pcli = fopen("C:\\Users\\Danie\\Downloads\\Programa\\clientes.txt", "r");
+    if (pcli == NULL) {
+        printf("Erro ao Abrir o Arquivo de Clientes.\n");
+        return;
+    }
+
+    while (fscanf(pcli, "%d;%[^;];%s\n", &cli[cont_cli].codigo_cliente,
+                  cli[cont_cli].nome_cliente, cli[cont_cli].telefone) != EOF) 
+	{
+        cont_cli++;
+    }
+
+    fclose(pcli);
+    printf("Dados de Clientes Importados com Sucesso!\n");
+
+
+
+    FILE *pvend; 
+    pvend = fopen("C:/Users/Danie/Downloads/Programa/vendedores.txt", "r");
+    if (pvend == NULL) {
+        printf("Erro ao Abrir o Arquivo de Vendedores.\n");
+        return;
+    }
+
+    while (fscanf(pvend, "%d;%[^;];%s\n", &func[cont_func].codigo_vendedor,
+                  func[cont_func].nome_vendedor, func[cont_func].telefone) != EOF) 
+	{
+        cont_func++;
+    }
+
+    fclose(pvend);
+    printf("Dados de Vendedores Importados com Sucesso!\n");
+
+
+    FILE *pprod; 
+    pprod = fopen("C:/Users/Danie/Downloads/Programa/produtos.txt", "r");
+    if (pprod == NULL) {
+        printf("Erro ao Abrir o Arquivo de Produtos.\n");
+        return;
+    }
+
+    while (fscanf(pprod, "%d;%[^;];%d;%f\n", &prod[cont_prod].codigo_produto,
+                  prod[cont_prod].nome_produto, &prod[cont_prod].quantidade_estoque,
+                  &prod[cont_prod].valor_produto) != EOF) 
+	{
+        cont_prod++;
+    }
+
+    fclose(pprod);
+    printf("Dados de Produtos Importados com Sucesso!\n");
+}
