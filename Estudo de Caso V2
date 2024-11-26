@@ -114,12 +114,12 @@ int menu()
 	} while(m < 1 || m > 8);
 	return m;
 }
-
+// Função que chama o Menu de Exclução de dados
 void menu_exclusao(Cliente cli[], Vendedor func[], Venda vend[])
 {
 	int sub_op;
 	do {
-		printf("\n==== Menu de ExclusC#o ====");
+		printf("\n==== Menu de Exclusão ====");
 		printf("\n1 - Excluir Cliente");
 		printf("\n2 - Excluir Vendedor");
 		printf("\n3 - Voltar ao Menu Principal");
@@ -138,6 +138,7 @@ void menu_exclusao(Cliente cli[], Vendedor func[], Venda vend[])
 	} while (sub_op != 3);
 }
 
+// Função que chama o Menu de Relatórios
 void menu_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[])
 {
 	int sub_op;
@@ -164,7 +165,7 @@ void menu_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[
 	} while (sub_op != 4);
 }
 
-
+// Função que Realiza o Cadastro de Clientes
 void cadastro_cli(Cliente cli[])
 {
 	int codigo, i, achou = 0;
@@ -197,6 +198,8 @@ void cadastro_cli(Cliente cli[])
 		printf("Cliente cadastrado com sucesso!\n");
 	}
 }
+
+// Função que Realiza a Exclusão de Cliente do Cadastro
 void exclui_cli(Cliente cli[], Venda vend[])
 {
     int codigo, i, j;
@@ -238,10 +241,12 @@ void exclui_cli(Cliente cli[], Venda vend[])
     	}
     }
     
-    if (!achou_cliente) {
+    if (!achou_cliente)
     	printf("Cliente não Encontrado.\n");
-}
-} void cadastro_prod(Produto prod[])
+} 
+
+// Função que Realiza o Cadastro de Produtos
+void cadastro_prod(Produto prod[])
 {
 	int codigo, i;
 	float valor, total_valor_novo, total_valor_atual;
@@ -292,6 +297,7 @@ void exclui_cli(Cliente cli[], Venda vend[])
 	}
 }
 
+// Função que Realiza o Cadastro de Vendedores
 void cad_vendedor(Vendedor func[])
 {
 	int codigo, i, achou = 0;
@@ -325,6 +331,8 @@ void cad_vendedor(Vendedor func[])
 	}
 
 }
+
+// Função que Realiza a Exclusão de Vendedor do Cadastro
 void exclui_vendedor(Vendedor func[], Venda vend[])
 {
     int codigo, i, j;
@@ -370,6 +378,7 @@ void exclui_vendedor(Vendedor func[], Venda vend[])
 
 }
 
+// Função que Realiza a Venda dos Produtos
 void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]) {
 	int codigo_cliente, codigo_produto, codigo_vendedor, quantidade, i;
 	int achou_cliente = 0, achou_produto = 0, achou_vendedor = 0;
@@ -443,6 +452,7 @@ void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]
 	}
 }
 
+// Função que gera o Relatório de Venda por Produto
 void relatorio_venda_produto(Produto prod[], Venda vend[]) 
 {
 	int i, j;
@@ -475,6 +485,8 @@ void relatorio_venda_produto(Produto prod[], Venda vend[])
 		}
 	}
 }
+
+// Função que gera o Relatório de Venda por Vendedor
 void relatorio_venda_vendedor(Vendedor func[], Venda vend[]) {
 	int i, j;
 	printf("\n==== Relatório de Vendas por Vendedor ====\n");
@@ -504,6 +516,7 @@ void relatorio_venda_vendedor(Vendedor func[], Venda vend[]) {
 
 }
 
+// Função que gera o Relatório de Venda por Cliente
 void relatorio_venda_cliente(Cliente cli[], Venda vend[]) {
 	int i, j;
 	printf("\n==== Relatório de Vendas por Cliente ====\n");
@@ -523,64 +536,79 @@ void relatorio_venda_cliente(Cliente cli[], Venda vend[]) {
 			if (total_vendas>0)
 			{
 				printf("Cliente: %s", cli[i].nome_cliente);
-				printf("CC3digo: %d | Total de Vendas: R$ %.2f\n", cli[i].codigo_cliente, total_vendas);
+				printf("Código: %d | Total de Vendas: R$ %.2f\n", cli[i].codigo_cliente, total_vendas);
 			}
 		}
 
 	}
 }
 
+// Função que Importa dados de Cliente, Vendedor e Produto de arquivo TXT
 void importar_dados(Cliente cli[], Vendedor func[], Produto prod[])
  {
-    FILE *pcli;
-    pcli = fopen("C:\\Users\\Danie\\Downloads\\Programa\\clientes.txt", "r");
-    if (pcli == NULL) {
-        printf("Erro ao Abrir o Arquivo de Clientes.\n");
-        return;
-    }
+    char importar_sim[2];
+	printf("\033[41m\033[97mA importação dos dados somente poderá ser feita antes de cadastrado o primeiro Cliente, Vendedor ou Produto\033[0m\n");
+	printf("\nDeseja Continuar? Digite S: ");
+	setbuf(stdin, NULL);
+	fgets(importar_sim, 2, stdin);
 
-    while (fscanf(pcli, "%d;%[^;];%s\n", &cli[cont_cli].codigo_cliente,
-                  cli[cont_cli].nome_cliente, cli[cont_cli].telefone) != EOF) 
+	if (importar_sim[0] == 's' || importar_sim[0] == 'S') 	
 	{
-        cont_cli++;
-    }
-
-    fclose(pcli);
-    printf("Dados de Clientes Importados com Sucesso!\n");
-
-
-
-    FILE *pvend; 
-    pvend = fopen("C:/Users/Danie/Downloads/Programa/vendedores.txt", "r");
-    if (pvend == NULL) {
-        printf("Erro ao Abrir o Arquivo de Vendedores.\n");
-        return;
-    }
-
-    while (fscanf(pvend, "%d;%[^;];%s\n", &func[cont_func].codigo_vendedor,
-                  func[cont_func].nome_vendedor, func[cont_func].telefone) != EOF) 
-	{
-        cont_func++;
-    }
-
-    fclose(pvend);
-    printf("Dados de Vendedores Importados com Sucesso!\n");
-
-
-    FILE *pprod; 
-    pprod = fopen("C:/Users/Danie/Downloads/Programa/produtos.txt", "r");
-    if (pprod == NULL) {
-        printf("Erro ao Abrir o Arquivo de Produtos.\n");
-        return;
-    }
-
-    while (fscanf(pprod, "%d;%[^;];%d;%f\n", &prod[cont_prod].codigo_produto,
-                  prod[cont_prod].nome_produto, &prod[cont_prod].quantidade_estoque,
-                  &prod[cont_prod].valor_produto) != EOF) 
-	{
-        cont_prod++;
-    }
-
-    fclose(pprod);
-    printf("Dados de Produtos Importados com Sucesso!\n");
+	
+		FILE *pcli;
+	    pcli = fopen("C:\\Users\\Danie\\Downloads\\Programa\\clientes.txt", "r");
+	    if (pcli == NULL) {
+	        printf("Erro ao abrir o arquivo de clientes.\n");
+	        return;
+	    }
+	
+	    while (fscanf(pcli, "%d;%[^;];%s\n", &cli[cont_cli].codigo_cliente,
+	                  cli[cont_cli].nome_cliente, cli[cont_cli].telefone) != EOF) 
+		{
+	        cont_cli++;
+	    }
+	
+	    fclose(pcli);
+	    printf("Dados de clientes importados com sucesso!\n");
+	
+	
+	
+	    FILE *pvend; 
+	    pvend = fopen("C:/Users/Danie/Downloads/Programa/vendedores.txt", "r");
+	    if (pvend == NULL) {
+	        printf("Erro ao abrir o arquivo de vendedores.\n");
+	        return;
+	    }
+	
+	    while (fscanf(pvend, "%d;%[^;];%s\n", &func[cont_func].codigo_vendedor,
+	                  func[cont_func].nome_vendedor, func[cont_func].telefone) != EOF) 
+		{
+	        cont_func++;
+	    }
+	
+	    fclose(pvend);
+	    printf("Dados de vendedores importados com sucesso!\n");
+	
+	
+	    FILE *pprod; 
+	    pprod = fopen("C:/Users/Danie/Downloads/Programa/produtos.txt", "r");
+	    if (pprod == NULL) {
+	        printf("Erro ao abrir o arquivo de produtos.\n");
+	        return;
+	    }
+	
+	    while (fscanf(pprod, "%d;%[^;];%d;%f\n", &prod[cont_prod].codigo_produto,
+	                  prod[cont_prod].nome_produto, &prod[cont_prod].quantidade_estoque,
+	                  &prod[cont_prod].valor_produto) != EOF) 
+		{
+	        cont_prod++;
+	    }
+	
+	    fclose(pprod);
+	    printf("Dados de produtos importados com sucesso!\n");
+		}
+	else
+		printf("\nRetornando ao Menu Principal");
+	
 }
+
