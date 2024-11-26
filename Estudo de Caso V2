@@ -1,3 +1,4 @@
+
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -77,14 +78,15 @@ int main()
 			cadastro_prod(prod);
 		else if(op == 4)
 			realizar_venda(cli, prod, func, vend);
-		else if(op == 5)
-			menu_exclusao(cli, func, vend);
-		else if(op == 6)
-			menu_relatorios(cli, prod, func, vend);
-		else if(op == 7)
+	    else if(op == 5)
 			importar_dados(cli, func, prod);
-		else if(op == 8)
+		else if(op == 6)
 			exporta_relatorios(cli, prod, func, vend);
+		else if(op == 7)
+			menu_exclusao(cli, func, vend);
+		else if(op == 8)
+			menu_relatorios(cli, prod, func, vend);
+		
 						
 			
 	} while(op != 9);
@@ -95,16 +97,18 @@ int menu()
 	int m, flag = 0;
 	do
 	{
-		printf("\n==== MENU PRINCIPAL ===="); 
+	    printf("\n========================"); 
+		printf("\n==== MENU PRINCIPAL ====");
+		printf("\n========================"); 
 		printf("\n1 - Cadastrar Clientes");
 		printf("\n2 - Cadastrar Vendedor");
 		printf("\n3 - Cadastrar Produto");
 		printf("\n4 - Realizar Venda");
-		printf("\n5 - ---> Menu de Exclusão");
-		printf("\n6 - ---> Menu de Relatórios");
-		printf("\n7 - importar Dados");
-		printf("\n8 - Exportar Dados");
-		printf("\n9 - Sair");
+		printf("\n5 - importar Dados");
+		printf("\n6 - Exportar Dados");
+		printf("\n7 - ---> Menu de Exclusão");
+		printf("\n8 - ---> Menu de Relatórios");
+		printf("\n9 - Sair\n");
 		if(flag == 0)
 		{
 			printf("\nDigite a opcao: ");
@@ -124,7 +128,7 @@ void menu_exclusao(Cliente cli[], Vendedor func[], Venda vend[])
 {
 	int sub_op;
 	do {
-		printf("\n==== Menu de Exclusão ====");
+		printf("\n==== MENU DE EXLUSÃO ====");
 		printf("\n1 - Excluir Cliente");
 		printf("\n2 - Excluir Vendedor");
 		printf("\n3 - Voltar ao Menu Principal");
@@ -148,7 +152,7 @@ void menu_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[
 {
 	int sub_op;
 	do {
-		printf("\n==== Menu de RelatC3rios ====");
+		printf("\n==== MENU DE RELATÓRIOS ====");
 		printf("\n1 - Relatório de Venda por Produto");
 		printf("\n2 - Relatório de Venda por Vendedor");
 		printf("\n3 - Relatório de Venda por Cliente");
@@ -174,7 +178,8 @@ void menu_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[
 void cadastro_cli(Cliente cli[])
 {
 	int codigo, i, achou = 0;
-
+    
+    printf("\n ===CADASTRO DE CLIENTES===\n");
 	printf("Digite o Código do Cliente: ");
 	setbuf(stdin, NULL);
 	scanf("%d", &codigo);
@@ -200,7 +205,7 @@ void cadastro_cli(Cliente cli[])
 		fgets(cli[cont_cli].telefone, sizeof(cli[cont_cli].telefone), stdin);
 
 		cont_cli++;
-		printf("Cliente cadastrado com sucesso!\n");
+		printf("\nCliente cadastrado com sucesso!\n");
 	}
 }
 
@@ -214,7 +219,7 @@ void exclui_cli(Cliente cli[], Venda vend[])
     	printf("\nCadastro vazio!\n");
     	return;
     }
-    
+    printf("\n ===EXCLUSÃO DE CLIENTES===\n");
     printf("Digite o Código do Cliente a ser Excluído: ");
     setbuf(stdin, NULL);
     scanf("%d", &codigo);
@@ -235,7 +240,7 @@ void exclui_cli(Cliente cli[], Venda vend[])
     
     		if (!achou_vendas)
     		{
-    			printf("Cliente '%s' Excluído com Sucesso.\n", cli[i].nome_cliente);
+    			printf("\nCliente '%s' Excluído com Sucesso.\n", cli[i].nome_cliente);
     
     			for (j = i; j < cont_cli - 1; j++) {
     				cli[j] = cli[j + 1];
@@ -247,7 +252,7 @@ void exclui_cli(Cliente cli[], Venda vend[])
     }
     
     if (!achou_cliente)
-    	printf("Cliente não Encontrado.\n");
+    	printf("\nCliente não Encontrado.\n");
 } 
 
 // Função que Realiza o Cadastro de Produtos
@@ -257,7 +262,8 @@ void cadastro_prod(Produto prod[])
 	float valor, total_valor_novo, total_valor_atual;
 	int quantidade;
 	int achou = 0;
-
+    
+    printf("\n ===CADASTRO DE PRODUTOS===\n");
 	printf("Digite o Código do Produto: ");
 	setbuf(stdin, NULL);
 	scanf("%d", &codigo);
@@ -278,7 +284,7 @@ void cadastro_prod(Produto prod[])
 			prod[i].quantidade_estoque += quantidade;
 			prod[i].valor_produto = (total_valor_atual + total_valor_novo) / prod[i].quantidade_estoque;
 
-			printf("Estoque atualizado com sucesso!\n");
+			printf("\nEstoque atualizado com sucesso!\n");
 			achou = 1;
 			break;
 		}
@@ -297,7 +303,7 @@ void cadastro_prod(Produto prod[])
 
 		printf("Digite o Valor do Produto: ");
 		scanf("%f", &prod[cont_prod].valor_produto);
-		printf("Produto cadastrado com sucesso!\n");
+		printf("\nProduto cadastrado com sucesso!\n");
 		cont_prod++;
 	}
 }
@@ -306,7 +312,8 @@ void cadastro_prod(Produto prod[])
 void cad_vendedor(Vendedor func[])
 {
 	int codigo, i, achou = 0;
-
+    
+    printf("\n ===CADASTRO DE VENDEDORES===\n");
 	printf("Digite o Código do Vendedor: ");
 	setbuf(stdin, NULL);
 	scanf("%d", &codigo);
@@ -332,7 +339,7 @@ void cad_vendedor(Vendedor func[])
 		fgets(func[cont_func].telefone, sizeof(func[cont_func].telefone), stdin);
 
 		cont_func++;
-		printf("Vendedor cadastrado com sucesso!\n");
+		printf("\nVendedor cadastrado com sucesso!\n");
 	}
 
 }
@@ -348,6 +355,7 @@ void exclui_vendedor(Vendedor func[], Venda vend[])
         return;
     }
 
+    printf("\n ===EXCLUSÃO DE VENDEDORES===\n");
     printf("Digite o Código do Vendedor a ser Excluído: ");
     setbuf(stdin, NULL);
     scanf("%d", &codigo);
@@ -365,7 +373,7 @@ void exclui_vendedor(Vendedor func[], Venda vend[])
             }
 
             if (!achou_vendas) {
-                printf("Vendedor '%s' Excluído com Sucesso.\n", func[i].nome_vendedor);
+                printf("\nVendedor '%s' Excluído com Sucesso.\n", func[i].nome_vendedor);
 
                 for (j = i; j < cont_func - 1; j++) {
                     func[j] = func[j + 1];
@@ -378,7 +386,7 @@ void exclui_vendedor(Vendedor func[], Venda vend[])
 
     if (!achou_vendedor)
     {
-        printf("Vendedor não Encontrado.\n");
+        printf("\nVendedor não Encontrado.\n");
     }
 
 }
@@ -388,12 +396,12 @@ void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]
 	int codigo_cliente, codigo_produto, codigo_vendedor, quantidade, i;
 	int achou_cliente = 0, achou_produto = 0, achou_vendedor = 0;
 
-
+    printf("\n =====REALIZAR VENDAS=====\n");
 	printf("Digite o Código do Cliente: ");
 	scanf("%d", &codigo_cliente);
 	for (i = 0; i < cont_cli; i++)
 	{
-		if (cli[i].codigo_cliente == codigo_cliente)
+		if (codigo_cliente == cli[i].codigo_cliente)
 		{
 			achou_cliente = 1;
 			break;
@@ -401,7 +409,7 @@ void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]
 	}
 	if (!achou_cliente)
 	{
-		printf("Cliente não Encontrado.\n");
+		printf("\nCliente não Encontrado.\n");
 		return;
 	}
 
@@ -410,13 +418,13 @@ void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]
 	scanf("%d", &codigo_vendedor);
 	for (i = 0; i < cont_func; i++)
 	{
-		if (func[i].codigo_vendedor == codigo_vendedor) {
+		if (codigo_vendedor == func[i].codigo_vendedor) {
 			achou_vendedor = 1;
 			break;
 		}
 	}
 	if (!achou_vendedor) {
-		printf("Vendedor não Encontrado.\n");
+		printf("\nVendedor não Encontrado.\n");
 		return;
 	}
 
@@ -424,7 +432,7 @@ void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]
 	scanf("%d", &codigo_produto);
 
 	for (i = 0; i < cont_prod; i++) {
-		if (prod[i].codigo_produto == codigo_produto)
+		if (codigo_produto = prod[i].codigo_produto)
 		{
 			printf("Digite a Quantidade a ser Vendida: ");
 			scanf("%d", &quantidade);
@@ -446,13 +454,13 @@ void realizar_venda(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]
 			vend[cont_vend].valor_venda = quantidade * prod[i].valor_produto;
 
 			cont_vend++;
-			printf("Venda realizada com sucesso!\n");
+			printf("\nVenda realizada com sucesso!\n");
 			return;
 		}
 	}
 	if (!achou_produto)
 	{
-		printf("Produto não Encontrado.\n");
+		printf("\nProduto não Encontrado.\n");
 		return;
 	}
 }
@@ -552,6 +560,7 @@ void relatorio_venda_cliente(Cliente cli[], Venda vend[]) {
 void importar_dados(Cliente cli[], Vendedor func[], Produto prod[])
  {
     char importar_sim[2];
+	printf("\n ===IMPORTAÇÃO DE DADOS DE CLINTES, VENDEDORES E PRODUTOS===\n\n");
 	printf("\033[41m\033[97mA importação dos dados somente poderá ser feita antes de cadastrado o primeiro Cliente, Vendedor ou Produto\033[0m\n");
 	printf("\nDeseja Continuar? Digite S: ");
 	setbuf(stdin, NULL);
@@ -561,7 +570,7 @@ void importar_dados(Cliente cli[], Vendedor func[], Produto prod[])
 	{
 	
 		FILE *pcli;
-	    pcli = fopen("C:\\Users\\Danie\\Downloads\\Programa\\clientes.txt", "r");
+	    pcli = fopen("C:/Users/Danie/Downloads/Programa/clientes.txt", "r");
 	    if (pcli == NULL) {
 	        printf("Erro ao abrir o arquivo de clientes.\n");
 	        return;
@@ -619,7 +628,7 @@ void importar_dados(Cliente cli[], Vendedor func[], Produto prod[])
 //Função que Exporta os Relatórios de Vendas
 void exporta_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]) 
 {
-
+    printf("\n ===EXPORTAÇÃO DE RELATÓRIOS===\n\n");
 	int i,j;
     FILE *prel;
     prel = fopen("C:/Users/Danie/Downloads/Programa/relatorio_vendas.txt", "w");
