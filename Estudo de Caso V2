@@ -45,6 +45,7 @@ typedef struct Venda {
 
 
 int menu();
+//Estrutura da Funções o sistema
 void cadastro_cli(Cliente cli[]);
 void exclui_cli(Cliente cli[], Venda vend[]);
 void cadastro_prod(Produto prod[]);
