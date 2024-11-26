@@ -128,7 +128,7 @@ void menu_exclusao(Cliente cli[], Vendedor func[], Venda vend[])
 {
 	int sub_op;
 	do {
-		printf("\n==== MENU DE EXLUSÃO ====");
+		printf("\n==== MENU DE EXCLUSÃO ====");
 		printf("\n1 - Excluir Cliente");
 		printf("\n2 - Excluir Vendedor");
 		printf("\n3 - Voltar ao Menu Principal");
