@@ -56,6 +56,7 @@ void relatorio_venda_cliente(Cliente cli[], Venda vend[]);
 void relatorio_venda_vendedor(Vendedor func[], Venda vend[]);
 void relatorio_venda_produto(Produto prod[], Venda vend[]);
 void importar_dados(Cliente cli[], Vendedor func[], Produto prod[]);
+void exporta_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]);
 
 int main()
 {
@@ -82,8 +83,11 @@ int main()
 			menu_relatorios(cli, prod, func, vend);
 		else if(op == 7)
 			importar_dados(cli, func, prod);
+		else if(op == 8)
+			exporta_relatorios(cli, prod, func, vend);
+						
 			
-	} while(op != 8);
+	} while(op != 9);
 }
 
 int menu()
@@ -99,7 +103,8 @@ int menu()
 		printf("\n5 - ---> Menu de Exclusão");
 		printf("\n6 - ---> Menu de Relatórios");
 		printf("\n7 - importar Dados");
-		printf("\n8 - Sair");
+		printf("\n8 - Exportar Dados");
+		printf("\n9 - Sair");
 		if(flag == 0)
 		{
 			printf("\nDigite a opcao: ");
@@ -111,7 +116,7 @@ int menu()
 			printf("\nOpcao invalida! Digite novamente: ");
 			scanf("%d", &m);
 		}
-	} while(m < 1 || m > 8);
+	} while(m < 1 || m > 9);
 	return m;
 }
 // Função que chama o Menu de Exclução de dados
@@ -611,4 +616,87 @@ void importar_dados(Cliente cli[], Vendedor func[], Produto prod[])
 		printf("\nRetornando ao Menu Principal");
 	
 }
+//Função que Exporta os Relatórios de Vendas
+void exporta_relatorios(Cliente cli[], Produto prod[], Vendedor func[], Venda vend[]) 
+{
 
+	int i,j;
+    FILE *prel;
+    prel = fopen("C:/Users/Danie/Downloads/Programa/relatorio_vendas.txt", "w");
+    
+    if (prel == NULL) {
+        printf("Erro ao criar o arquivo de relatórios.\n");
+        return;
+    }
+
+    fprintf(prel, "==== Relatório de Vendas por Produto ====\n");
+    if (cont_vend == 0) 
+		fprintf(prel, "Nenhuma venda realizada.\n\n");
+     
+	else 
+	{
+	    for (i = 0; i < cont_prod; i++)
+		{
+			int total_quantidade = 0;
+			float total_vendas = 0;
+
+			for (j = 0; j < cont_vend; j++) 
+			{
+				if (prod[i].codigo_produto == vend[j].codigo_produto)
+					{
+						total_quantidade += vend[j].quantidade_vendida;
+						total_vendas += vend[j].valor_venda;
+					}
+			}
+			if (total_quantidade>0)
+			{
+				
+				fprintf(prel, "Produto: %s", prod[i].nome_produto);
+				fprintf(prel, "Código: %d | Quantidade Vendida: %d | Total de Vendas: R$ %.2f\n",
+			       prod[i].codigo_produto, total_quantidade, total_vendas);
+			}
+	
+		}
+	    
+	  	fprintf(prel, "==== Relatório de Vendas por Vendedor ====\n");
+	    for (i = 0; i < cont_func; i++)
+		{
+			float total_vendas = 0;
+	
+			for (j = 0; j < cont_vend; j++)
+			{
+				if (func[i].codigo_vendedor == vend[j].codigo_vendedor) 
+				{
+					total_vendas += vend[j].valor_venda;
+				}
+			}
+			if (total_vendas>0)
+			{
+				fprintf(prel, "Vendedor: %s", func[i].nome_vendedor);
+				fprintf(prel, "Código: %d | Total de Vendas: R$ %.2f\n", func[i].codigo_vendedor, total_vendas);
+			}
+		}
+	     
+		fprintf(prel, "==== Relatório de Vendas por Cliente ====\n");
+	      
+	    for (i = 0; i < cont_cli; i++) 
+		{
+			float total_vendas = 0;
+	
+			for (j = 0; j < cont_vend; j++) 
+			{
+				if (cli[i].codigo_cliente == vend[j].codigo_cliente) 
+				{
+					total_vendas += vend[j].valor_venda;
+				}
+			}
+			if (total_vendas>0)
+			{
+				fprintf(prel, "Cliente: %s", cli[i].nome_cliente);
+				fprintf(prel, "Código: %d | Total de Vendas: R$ %.2f\n", cli[i].codigo_cliente, total_vendas);
+			}
+		}
+	}
+	fclose(prel); 
+    printf("Relatórios Gerados com Sucesso no Arquivo 'relatorio_vendas.txt'.\n");
+}
